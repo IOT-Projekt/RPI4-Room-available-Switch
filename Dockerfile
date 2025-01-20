@@ -1,3 +1,4 @@
+# Use a Raspberry Pi-compatible base image
 FROM python:3.10-buster
 
 # Install system dependencies for RPi.GPIO
