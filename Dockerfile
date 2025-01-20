@@ -1,6 +1,11 @@
-# Use a lightweight Python base image
 FROM python:3.10-buster
 
+# Install system dependencies for RPi.GPIO
+RUN apt-get update && apt-get install -y \
+    python3-rpi.gpio \
+    libgpiod2 \
+    && apt-get clean
+    
 # Set working directory in the container
 WORKDIR /app
 
