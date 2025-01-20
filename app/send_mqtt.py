@@ -53,7 +53,7 @@ def send_mqtt(button_state):
     })
 
     # Publish to MQTT broker
-    client.publish(TOPIC_BUTTON_STATE, payload)
+    client.publish(TOPIC_BUTTON, payload)
     print(f"Button state sent: {payload}")
 
 if __name__ == "__main__":
