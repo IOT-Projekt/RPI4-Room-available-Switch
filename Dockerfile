@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Grant the container access to Raspberry Pi GPIO
 RUN apt-get update && apt-get install -y \
+    python3-dev \
+    build-essential \
     python3-rpi.gpio \
     && apt-get clean
 
