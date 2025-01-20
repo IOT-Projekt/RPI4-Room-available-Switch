@@ -18,6 +18,7 @@ last_button_state = GPIO.HIGH  # Assume the button is not pressed at start
 def get_button_state():
     """
     Toggles and returns the button state when pressed, only if it changes.
+    The state will only toggle on button press (not release).
     """
     global button_toggled, last_button_state
 
@@ -26,7 +27,7 @@ def get_button_state():
 
     # Detect button press (transition from not pressed to pressed)
     if last_button_state == GPIO.HIGH and current_button_state == GPIO.LOW:
-        # Toggle the variable
+        # Button was pressed, toggle the variable
         button_toggled = not button_toggled
 
     # Update the last button state
