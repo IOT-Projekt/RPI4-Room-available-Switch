@@ -1,6 +1,6 @@
 import os
-import time
 import json
+import time
 import paho.mqtt.client as mqtt
 from button_data import read_button
 
@@ -20,7 +20,7 @@ MQTT_PASSWORD = os.getenv("MQTT_PASSWORD", DEFAULT_PASSWORD)
 CLIENT_ID = os.getenv("CLIENT_ID", "button-sensor")
 
 # Initialize MQTT client
-client = mqtt.Client()
+client = mqtt.Client(CLIENT_ID)
 
 if MQTT_USERNAME and MQTT_PASSWORD:
     client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
@@ -39,9 +39,18 @@ client.on_publish = on_publish
 
 # Connect to MQTT broker
 client.connect(BROKER, PORT, keepalive=60)
+client.loop_start()  # Start MQTT communication in the background
 
 def send_mqtt(data):
-    """Send button data to the MQTT broker."""
+    """
+    Sends button data to the MQTT broker.
+    Args:
+        data (dict): The button state data. Example:
+                     {
+                         "pressed": True,  # True if pressed, False if released
+                         "timestamp": 1675809830.123456
+                     }
+    """
     if data is None:
         return
 
@@ -56,13 +65,17 @@ def send_mqtt(data):
     print(f"Button data sent: {button_payload}")
 
 if __name__ == "__main__":
-    client.loop_start()  # Start MQTT communication in the background
-
-    previous_state = None
-    while True:
-        button_data = read_button()
-        if button_data["pressed"] != previous_state:  # Only send if the state changes
-            send_mqtt(button_data)
-            previous_state = button_data["pressed"]
-        time.sleep(SEND_MQTT_INTERVAL)
+    print("Button MQTT collector running. Press Ctrl+C to exit.")
+    try:
+        previous_state = None
+        while True:
+            button_data = read_button()  # Get the button data
+            if button_data["pressed"] != previous_state:  # Only send if state changes
+                send_mqtt(button_data)
+                previous_state = button_data["pressed"]
+            time.sleep(SEND_MQTT_INTERVAL)
+    except KeyboardInterrupt:
+        print("Exiting button MQTT collector.")
+        client.loop_stop()
+        client.disconnect()
 
