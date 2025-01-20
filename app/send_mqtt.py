@@ -2,7 +2,7 @@ import os
 import time
 import json
 import paho.mqtt.client as mqtt
-from button_data import read_button
+from button_data import is_button_pressed
 
 # MQTT Configuration
 
@@ -36,24 +36,33 @@ client.on_publish = on_publish
 
 # Connect to MQTT broker
 client.connect(BROKER, PORT, keepalive=60)
-def send_mqtt(data):
-    """Send button data to the MQTT broker."""
-    if data is None:
+
+def send_mqtt(button_state):
+    """
+    Sends the button state to the MQTT broker.
+    """
+    if button_state is None:
         return
-    button_payload = json.dumps({
+
+    # Prepare payload
+    payload = json.dumps({
         "source": "mqtt",
         "device_id": CLIENT_ID,
-        "pressed": data["pressed"],
-        "timestamp": data["timestamp"]
+        "button_pressed": button_state,
+        "timestamp": time.time()
     })
-    client.publish(TOPIC_BUTTON, button_payload)
-    print(f"Button data sent: {button_payload}")
+
+    # Publish to MQTT broker
+    client.publish(TOPIC_BUTTON_STATE, payload)
+    print(f"Button state sent: {payload}")
+
 if __name__ == "__main__":
-    client.loop_start()  # Start MQTT communication in the background
-    previous_state = None
-    while True:
-        button_data = read_button()
-        if button_data["pressed"] != previous_state:  # Only send if the state changes
-            send_mqtt(button_data)
-            previous_state = button_data["pressed"]
-        time.sleep(SEND_MQTT_INTERVAL)
+    try:
+        while True:
+            button_state = is_button_pressed()
+            send_mqtt(button_state)
+            time.sleep(0.1)  # Adjust the interval as needed
+    except KeyboardInterrupt:
+        print("Exiting program...")
+    finally:
+        client.disconnect()
