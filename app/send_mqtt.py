@@ -2,7 +2,7 @@ import os
 import time
 import json
 import paho.mqtt.client as mqtt
-from button_collector import read_button
+from button_data import read_button
 
 # MQTT Configuration
 DEFAULT_BROKER = "localhost"
