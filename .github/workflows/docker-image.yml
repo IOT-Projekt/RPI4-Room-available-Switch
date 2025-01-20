@@ -32,4 +32,4 @@ jobs:
           context: .
           push: true
           platforms: linux/arm64
-          tags: svenschmidt1502/rpi4-button:latest
+          tags: svenschmidt1502/rpi4-room-available-switch:latest
