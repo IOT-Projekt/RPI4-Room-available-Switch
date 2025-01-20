@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy project files into the container
-COPY button_data.py send_mqtt.py requirements.txt /app/
+COPY app/button_data.py app/send_mqtt.py requirements.txt /app/
 
 # Install required Python packages
 RUN pip install --no-cache-dir -r requirements.txt
