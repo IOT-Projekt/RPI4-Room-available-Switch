@@ -1,29 +1,32 @@
-import RPi.GPIO as GPIO
+from gpiozero import Button
+from signal import pause
 
 # GPIO Pin Configuration
 BUTTON_PIN = 3  # GPIO3 (pin 5)
 
-# GPIO Setup
-GPIO.setmode(GPIO.BCM)  # Use BCM numbering
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Button pin as input with pull-up
+# Setup Button
+button = Button(BUTTON_PIN, pull_up=True)  # Pull-up resistor is enabled by default in gpiozero
 
-def get_button_state():
+def button_pressed():
     """
-    Returns the current state of the button.
-    True: Button is pressed.
-    False: Button is released.
+    Callback function when the button is pressed.
     """
-    return GPIO.input(BUTTON_PIN) == GPIO.LOW  # LOW means pressed, HIGH means released
+    print("Button state: Pressed")
 
-# Initialize GPIO
+def button_released():
+    """
+    Callback function when the button is released.
+    """
+    print("Button state: Released")
+
+# Attach event handlers
+button.when_pressed = button_pressed
+button.when_released = button_released
+
 if __name__ == "__main__":
     print("Button collector running. Press Ctrl+C to exit.")
     try:
-        while True:
-            state = "Pressed" if get_button_state() else "Released"
-            print(f"Button state: {state}")
+        pause()  # Keeps the program running to listen for button events
     except KeyboardInterrupt:
         print("Exiting button collector.")
-    finally:
-        GPIO.cleanup()
 
