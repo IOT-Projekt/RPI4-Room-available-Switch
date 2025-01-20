@@ -1,26 +1,24 @@
-import time
-from gpiozero import Button
-
+import RPi.GPIO as GPIO
 # GPIO Pin Configuration
 BUTTON_PIN = 3  # GPIO3 (pin 5)
-
-# Initialize Button
-button = Button(BUTTON_PIN, pull_up=True)
-
-def read_button():
+# GPIO Setup
+GPIO.setmode(GPIO.BCM)  # Use BCM numbering
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Button pin as input with pull-up
+def get_button_state():
     """
-    Reads the current state of the button.
-    Returns:
-        dict: A dictionary containing the button state and a timestamp.
-              Example:
-              {
-                  "pressed": True,  # True if pressed, False if released
-                  "timestamp": 1675809830.123456  # Current timestamp
-              }
+    Returns the current state of the button.
+    True: Button is pressed.
+    False: Button is released.
     """
-    state = {
-        "pressed": button.is_pressed,
-        "timestamp": time.time()
-    }
-    return state
-
+    return GPIO.input(BUTTON_PIN) == GPIO.LOW  # LOW means pressed, HIGH means released
+# Initialize GPIO
+if __name__ == "__main__":
+    print("Button collector running. Press Ctrl+C to exit.")
+    try:
+        while True:
+            state = "Pressed" if get_button_state() else "Released"
+            print(f"Button state: {state}")
+    except KeyboardInterrupt:
+        print("Exiting button collector.")
+    finally:
+        GPIO.cleanup()
