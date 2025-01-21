@@ -9,7 +9,7 @@ BUTTON_PIN = 3  # Replace with the GPIO pin number where your button is connecte
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Button with pull-up resistor
+GPIO.setup(BUTTON_PIN, GPIO.IN)  # No pull-up/down resistor since there's a physical pull-up
 
 # Initialize variables
 button_toggled = False
