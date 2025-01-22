@@ -39,12 +39,12 @@ client.on_connect = on_connect
 client.on_publish = on_publish
 
 # Connect to MQTT broker
-client.connect(BROKER, PORT, keepalive=60)
 
 # Initialize the previous state variable
 last_sent_state = None
 
 def send_mqtt(button_state):
+    client.connect(BROKER, PORT, keepalive=60)
     """
     Sends the button toggled state to the MQTT broker.
     """
