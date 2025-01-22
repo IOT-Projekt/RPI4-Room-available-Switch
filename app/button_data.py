@@ -28,7 +28,7 @@ def get_button_state():
     The state will only toggle on button press (not release).
     Logs the state change to Docker logs.
     """
-
+    global button_toggled 
 
     # Read the current button state
     current_button_state = GPIO.input(BUTTON_PIN)
