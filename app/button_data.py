@@ -49,7 +49,7 @@ if __name__ == "__main__":
         while True:
             # Call get_button_state() to check the button
             get_button_state()
-            time.sleep(0.01)  # Polling delay (smaller delay for responsiveness)
+            time.sleep(2)  # Polling delay (smaller delay for responsiveness)
     except KeyboardInterrupt:
         logging.info("Exiting program...")
     finally:
