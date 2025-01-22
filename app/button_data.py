@@ -34,7 +34,7 @@ def get_button_state():
     current_button_state = GPIO.input(BUTTON_PIN)
 
     # Detect button press (transition from not pressed to pressed)
-    if current_buttoN_state ==  GPIO.LOW:
+    if current_button_state ==  GPIO.LOW:
         # Button was pressed, toggle the variable
         button_toggled = not button_toggled
 
