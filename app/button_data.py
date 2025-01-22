@@ -21,7 +21,6 @@ GPIO.setup(BUTTON_PIN, GPIO.IN)  # No pull-up/down resistor since there's a phys
 
 # Initialize variables
 button_toggled = False
-last_button_state = GPIO.HIGH  # Assume the button is not pressed at start
 
 def get_button_state():
     """
@@ -29,13 +28,13 @@ def get_button_state():
     The state will only toggle on button press (not release).
     Logs the state change to Docker logs.
     """
-    global button_toggled, last_button_state
+
 
     # Read the current button state
     current_button_state = GPIO.input(BUTTON_PIN)
 
     # Detect button press (transition from not pressed to pressed)
-    if last_button_state == GPIO.HIGH and current_button_state == GPIO.LOW:
+    if current_buttoN-state ==  GPIO.LOW:
         # Button was pressed, toggle the variable
         button_toggled = not button_toggled
 
@@ -43,7 +42,7 @@ def get_button_state():
         logging.info(f"Button toggled state: {button_toggled}")
 
     # Update the last button state
-    last_button_state = current_button_state
+
 
     # Return the current toggled state
     return button_toggled
@@ -53,7 +52,7 @@ if __name__ == "__main__":
         while True:
             # Call get_button_state() to check the button
             get_button_state()
-            time.sleep(0.1)  # Polling delay
+            time.sleep(0.05)  # Polling delay
     except KeyboardInterrupt:
         logging.info("Exiting program...")
     finally:
