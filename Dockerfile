@@ -19,5 +19,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Grant the container access to Raspberry Pi GPIO
 
 # Entry point to run the button sender script
-CMD ["python", "send_mqtt.py"]
+CMD ["python", "main.py"]
 
