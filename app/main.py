@@ -34,14 +34,14 @@ def on_publish(client, userdata, mid):
 client.on_connect = on_connect
 client.on_publish = on_publish
 
-# Connect to MQTT broker
-client.connect(BROKER, PORT, keepalive=60)
-
 # Initialize the previous state variable
 last_sent_state = None
 
 def send_mqtt(button_state):
     """Sends the button state to the MQTT broker."""
+    # Connect to MQTT broker
+    client.connect(BROKER, PORT, keepalive=60)
+    
     # Create the payload for MQTT message
     payload = json.dumps({
         "source": "mqtt",
