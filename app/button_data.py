@@ -6,20 +6,20 @@ import logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[logging.StreamHandler()]  # Send logs to stdout for Docker
+    handlers=[logging.StreamHandler()] 
 )
 
 # Pin configuration
-BUTTON_PIN = 3  # Replace with the GPIO pin number where your button is connected
+BUTTON_PIN = 3 
 
 # GPIO setup
-GPIO.setmode(GPIO.BCM)  # Use BCM pin numbering
-GPIO.setup(BUTTON_PIN, GPIO.IN)  # No pull-up/down resistor since there's a physical pull-up
+GPIO.setmode(GPIO.BCM)  
+GPIO.setup(BUTTON_PIN, GPIO.IN) 
 
-# Initialize variables
+# Initialize variables and constant
 button_toggled = False
 last_press_time = 0
-DEBOUNCE_DELAY = 0.2  # 200 milliseconds debounce delay
+DEBOUNCE_DELAY = 0.2 
 
 def get_button_state():
     """
@@ -35,8 +35,8 @@ def get_button_state():
 
     # Detect button press (transition from not pressed to pressed) with debounce
     if current_button_state == GPIO.LOW and (current_time - last_press_time > DEBOUNCE_DELAY):
-        last_press_time = current_time  # Update the last press time
-        button_toggled = not button_toggled  # Toggle the button state
+        last_press_time = current_time  
+        button_toggled = not button_toggled # Toggle the state
 
         # Log the state change
         logging.info(f"Button toggled state: {button_toggled}")
