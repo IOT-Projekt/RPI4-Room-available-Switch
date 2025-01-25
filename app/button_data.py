@@ -43,14 +43,3 @@ def get_button_state():
 
     # Return the current toggled state
     return button_toggled
-
-if __name__ == "__main__":
-    try:
-        while True:
-            # Call get_button_state() to check the button
-            get_button_state()
-            time.sleep(2)  # Polling delay (smaller delay for responsiveness)
-    except KeyboardInterrupt:
-        logging.info("Exiting program...")
-    finally:
-        GPIO.cleanup()  # Cleanup GPIO pins before exiting
