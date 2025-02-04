@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(
@@ -10,7 +11,7 @@ logging.basicConfig(
 )
 
 # Pin configuration
-BUTTON_PIN = 3 
+BUTTON_PIN = os.getenv("BUTTON_PIN", 17)
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)  
